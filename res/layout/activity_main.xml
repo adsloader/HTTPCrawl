@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/red_button"
+    android:orientation="vertical"
+    tools:context="com.campandroid.httpcrawl.MainActivity" >
+
+    <Button
+        android:id="@+id/btnGetWeather"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/red_button"
+        android:text="날씨가져오기"
+        android:textColor="#eeeeee" />
+
+    <TextView
+        android:id="@+id/txtWeather"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="온도 0C"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/imgWeather"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cloud" />
+
+    <CalendarView
+        android:id="@+id/calendarView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:alpha="0.7"
+        android:background="@drawable/grid_back" />
+
+</LinearLayout>
