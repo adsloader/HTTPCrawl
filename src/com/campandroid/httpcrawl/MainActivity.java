@@ -41,37 +41,33 @@ public class MainActivity extends Activity {
 				
 				// 1. 날씨 웹페이지에 들려 정보를 긁어온다. 
 				MyHttpRequest http = new MyHttpRequest(getApplicationContext());
-				String sUrl = "http://api.openweathermap.org/data/2.5/weather?id=1835848";
+				String sUrl = "http://api.openweathermap.org/data/2.5/weather?q=seoul&units=metric";
 				
 				try {
 					int nResultCode = http.execute(sUrl, "GET").get();
 				    if(nResultCode == MyHttpRequest.REQUEST_FAIL) return;
 				    
 				    // 2. 가져온 문자열(JSON)을 처리한다.
-                    JSONObject json = new JSONObject(http.getString());
+				    String sJson = http.getString();
+                    JSONObject json = new JSONObject(sJson);
 					
                     JSONArray  json_weather  = json.getJSONArray("weather");
 					JSONObject json_item     = json_weather.getJSONObject(0);
 					
-					String sToday = json_item.getString("description");
+					String sToday  = json_item.getString("description");
+					String sStatus = json_item.getString("main");
 					
-					// 일몰, 일출 시간을 계산한다.
-//					JSONObject  json_sys  = json.getJSONObject("sys");
-//					
-//					String sSungRise = json_sys.getString("sunrise");
-//					String sSunSet   = json_sys.getString("sunset");
-//					
-//					SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-//					
-//					long nSunRise  = new Long (sSungRise);  
-//					long nSunSet   = new Long (sSunSet);  
-//					
-//					String sSunTime = "일출: " + df.format(nSunRise) + " 일몰:" + df.format(nSunSet);
-//					txtWeather.setText(sToday +"\n"+ sSunTime );
-					txtWeather.setText(sToday);
+					// 최소, 최대 온도구한다.
+					JSONObject  json_main  = json.getJSONObject("main");
+					
+					String sMin = json_main.getString("temp_min");
+					String sMax   = json_main.getString("temp_max");
+					
+					txtWeather.setText(sToday +"\n"+ "최소:" + sMin + " 최대:" + sMax);
+					//txtWeather.setText(sToday);
 					
 					// 3. 날씨와 비슷한 이미지를 설정한다.
-					setWeatherImage(sToday);
+					setWeatherImage(sStatus);
 				    
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -90,10 +86,13 @@ public class MainActivity extends Activity {
 		// ImageView를 가져오기
 		ImageView imgWeather = (ImageView)findViewById(R.id.imgWeather);
 		
+		// 소문자로 바꾸어주세요
+		sWeather = sWeather.toLowerCase();
+		
 		// 문자열을 분석한 후(..라면코드)..
 		// 이미지를 지정한다. <-- 로직이 무척 약함.
 		int nRES_ID = R.drawable.unknown;
-		if( sWeather.indexOf("Clear") > -1) {
+		if( sWeather.indexOf("clear") > -1) {
 			nRES_ID = R.drawable.sun;
 		
 		} else if(sWeather.indexOf("clouds") > -1){
