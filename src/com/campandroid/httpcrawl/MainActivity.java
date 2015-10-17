@@ -39,15 +39,15 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				// 1. ³¯¾¾ À¥ÆäÀÌÁö¿¡ µé·Á Á¤º¸¸¦ ±Ü¾î¿Â´Ù. 
+				// 1. ë‚ ì”¨ ì›¹í˜ì´ì§€ì— ë“¤ë ¤ ì •ë³´ë¥¼ ê¸ì–´ì˜¨ë‹¤. 
 				MyHttpRequest http = new MyHttpRequest(getApplicationContext());
-				String sUrl = "http://api.openweathermap.org/data/2.5/weather?q=seoul&units=metric";
+				String sUrl = "http://api.openweathermap.org/data/2.5/weather?q=seoul&units=metric&appid=bd82977b86bf27fb59a04b61b657fb6f";
 				
 				try {
 					int nResultCode = http.execute(sUrl, "GET").get();
 				    if(nResultCode == MyHttpRequest.REQUEST_FAIL) return;
 				    
-				    // 2. °¡Á®¿Â ¹®ÀÚ¿­(JSON)À» Ã³¸®ÇÑ´Ù.
+				    // 2. ê°€ì ¸ì˜¨ ë¬¸ìì—´(JSON)ì„ ì²˜ë¦¬í•œë‹¤.
 				    String sJson = http.getString();
                     JSONObject json = new JSONObject(sJson);
 					
@@ -57,16 +57,16 @@ public class MainActivity extends Activity {
 					String sToday  = json_item.getString("description");
 					String sStatus = json_item.getString("main");
 					
-					// ÃÖ¼Ò, ÃÖ´ë ¿Âµµ±¸ÇÑ´Ù.
+					// ìµœì†Œ, ìµœëŒ€ ì˜¨ë„êµ¬í•œë‹¤.
 					JSONObject  json_main  = json.getJSONObject("main");
 					
 					String sMin = json_main.getString("temp_min");
 					String sMax   = json_main.getString("temp_max");
 					
-					txtWeather.setText(sToday +"\n"+ "ÃÖ¼Ò:" + sMin + " ÃÖ´ë:" + sMax);
+					txtWeather.setText(sToday +"\n"+ "ìµœì†Œ:" + sMin + " ìµœëŒ€:" + sMax);
 					//txtWeather.setText(sToday);
 					
-					// 3. ³¯¾¾¿Í ºñ½ÁÇÑ ÀÌ¹ÌÁö¸¦ ¼³Á¤ÇÑ´Ù.
+					// 3. ë‚ ì”¨ì™€ ë¹„ìŠ·í•œ ì´ë¯¸ì§€ë¥¼ ì„¤ì •í•œë‹¤.
 					setWeatherImage(sStatus);
 				    
 				} catch (InterruptedException e) {
@@ -81,16 +81,16 @@ public class MainActivity extends Activity {
 			}} );
 	}
 	
-	// ¹®ÀÚ¿­À» ¹Ş°í ³¯¾¾¿Í ºñ½ÁÇÑ ÀÌ¹ÌÁö¸¦ Ãâ·ÂÇÑ´Ù.
+	// ë¬¸ìì—´ì„ ë°›ê³  ë‚ ì”¨ì™€ ë¹„ìŠ·í•œ ì´ë¯¸ì§€ë¥¼ ì¶œë ¥í•œë‹¤.
 	void setWeatherImage(String sWeather){
-		// ImageView¸¦ °¡Á®¿À±â
+		// ImageViewë¥¼ ê°€ì ¸ì˜¤ê¸°
 		ImageView imgWeather = (ImageView)findViewById(R.id.imgWeather);
 		
-		// ¼Ò¹®ÀÚ·Î ¹Ù²Ù¾îÁÖ¼¼¿ä
+		// ì†Œë¬¸ìë¡œ ë°”ê¾¸ì–´ì£¼ì„¸ìš”
 		sWeather = sWeather.toLowerCase();
 		
-		// ¹®ÀÚ¿­À» ºĞ¼®ÇÑ ÈÄ(..¶ó¸éÄÚµå)..
-		// ÀÌ¹ÌÁö¸¦ ÁöÁ¤ÇÑ´Ù. <-- ·ÎÁ÷ÀÌ ¹«Ã´ ¾àÇÔ.
+		// ë¬¸ìì—´ì„ ë¶„ì„í•œ í›„(..ë¼ë©´ì½”ë“œ)..
+		// ì´ë¯¸ì§€ë¥¼ ì§€ì •í•œë‹¤. <-- ë¡œì§ì´ ë¬´ì²™ ì•½í•¨.
 		int nRES_ID = R.drawable.unknown;
 		if( sWeather.indexOf("clear") > -1) {
 			nRES_ID = R.drawable.sun;
@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
 			
 		} 
 		
-		// ÀÌ¹ÌÁö¸¦ ÁöÁ¤ÇÑ´Ù.
+		// ì´ë¯¸ì§€ë¥¼ ì§€ì •í•œë‹¤.
 		imgWeather.setImageResource(nRES_ID);
 	}
 
